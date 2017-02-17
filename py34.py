@@ -6,4 +6,4 @@ def kai(n):
 	else:
 		return n*kai(n-1)
 
-print(kai(100))
+print(kai(50))
