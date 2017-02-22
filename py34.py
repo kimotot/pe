@@ -12,9 +12,9 @@ def kai(n):
 
 def set_klist():
 	# 0〜9の階乗値をグローバル変数klistに保存する関数
-	for n in range(1, 10):
-		if n == 1:
-			klist.append(1)
+	for n in range(10):
+		if n == 0 or n == 1:
+			klist.append(n)
 		else:
 			klist.append(klist[n - 1] * n)
 
@@ -39,14 +39,16 @@ def is_kaijyowa(n):
 
 
 if __name__ == '__main__':
-	klist = [0]
+	klist = []
 	set_klist()
 
 	s = 0
 
-	for n in range(20000000,30000000):
+	print(klist)
+
+	for n in range(10000000):
 		if is_kaijyowa(n):
 			s = s + n
 			print(n)
 
-	print(s)
+	print("総計={0}".format(s))
