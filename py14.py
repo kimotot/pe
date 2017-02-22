@@ -47,9 +47,9 @@ for i in range(1,1000001):
 
 idx = 0
 ans = 0
-for i in range(1,1000001):
-	if list[i] > ans:
-		ans = list[i]
+for i,n in enumerate(list):
+	if n > ans:
+		ans = n
 		idx = i
 
 print(idx,ans)
