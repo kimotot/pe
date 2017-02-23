@@ -5,14 +5,15 @@
 import math
 import time
 
+
 def get_sosu(maximum):
 	# 引数max以下の循環素数を求める
 	# 戻り値は求めた素数を含むリスト
 	# なお、1は素数に含めない
 
-	sosu_list = [2,3]				# 自明の素数をセットしておく
+	sosu_list = [2, 3]  # 自明の素数をセットしておく
 
-	for n in range(5,maximum,2):
+	for n in range(5, maximum, 2):
 
 		sq = int(math.sqrt(n))
 
@@ -48,38 +49,96 @@ def rotate(num):
 
 
 def all_rotate(num):
-	# 引数の数をローテーとしたすべての数持ったリストを返す関数
+	"""引数を桁数分回転した数字列のリストを返す関数
+	   引数は、基本となる正の整数値
+	   戻り値は、リスト"""
 
-	ans = [num]
-	r = rotate(num)
+	# 引数を各桁ごとの数字のリストに変換する
+	split_list = []
 
-	while r != num:
-		ans.append(r)
-		r = rotate(r)
-	else:
-		return ans
+	n1 = num % 10
+	n10 = num // 10
+
+	while (n1 > 0) or (n10 > 0):
+		split_list.insert(0,n1)
+		n1 = n10 % 10
+		n10 = n10 // 10
+
+	# split_listからローテートした数字を求める
+	c = 0
+	n_split_list = [list(split_list)]
+	while c < len(split_list) - 1:
+		t = split_list[0]
+		split_list.pop(0)
+		split_list.append(t)
+		n_split_list.append(list(split_list))
+		c += 1
+
+	# 整数値に戻す
+	int_list = []
+	for one_split_list in n_split_list:
+		s = 0
+		for n in one_split_list:
+			s = s*10 + n
+
+		int_list.append(s)
+
+
+	return int_list
+
+
+def all_kisu(num):
+	"""全ての数字が奇数であるか判定する関数
+	   """
+
+	# 引数を各桁ごとの数字のリストに変換する
+	split_list = []
+
+	n1 = num % 10
+	n10 = num // 10
+
+	while (n1 > 0) or (n10 > 0):
+		split_list.insert(0,n1)
+		n1 = n10 % 10
+		n10 = n10 // 10
+
+	iskisu = True
+	for n in split_list:
+		if n % 2 == 0:
+			iskisu = False
+			break
+
+	return iskisu
 
 if __name__ == "__main__":
-	MAX = 10000
+	MAX = 1000000
 
 	start_time = time.time()
 
 	slist = get_sosu(MAX)
 
-	print(slist)
+	elapsed_time = time.time() - start_time
+	print("経過時間={0:.3}".format(elapsed_time))
 
+	coun = 0
 	for n in slist:
-		rs = all_rotate(n)
-		isprime = True
-		for nrs in rs:
-			if nrs in slist:
-				pass
-			else:
-				isprime = False
-				break
+		if all_kisu(n):
+			rs = all_rotate(n)
 
-		if isprime:
+			isprime = True
+			for nrs in rs:
+				if nrs in slist:
+					pass
+				else:
+					isprime = False
+					break
+
+			if isprime:
+				coun += 1
 			print(n)
+
+	print(coun)
 
 	elapsed_time = time.time() - start_time
 	print("経過時間={0:.3}".format(elapsed_time))
+
