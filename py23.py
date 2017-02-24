@@ -3,55 +3,78 @@
 import time
 from functools import reduce
 
-kajyoulist = []
+kajyou_list = []
 
-#真の約数をもとめる関数
 def shinyaku(num):
-	
-	list = []
-	
-	for i in range(1,num // 2 + 1):
-		if num % i == 0:
-			list.append(i)
+    """ 真の約数を求める関数
+        引数：約数を求める対象となる正の整数値
+        戻値：約数のリスト
+        1は約数に含める"""
 
-	return(list)
+    yakusu_list = []
 
-#過剰数であるかを判定する関数
+    for i in range(1,num // 2 + 1):
+        if num % i == 0:
+            yakusu_list.append(i)
+
+    return(yakusu_list)
+
+
 def kajyou(num):
-	l = shinyaku(num)
-	
-	if reduce(lambda x,y:x+y,l) > num:
-		return True
-	else:
-		return False
+    """ 過剰数かどうかを判定する関数
+        返値： 過剰数である　→　True
+               過剰数でない　→　False """
 
-#過剰数のリストを返す関数
-def kj(max):
-	for n in range(12,max+1):
-		if kajyou(n):
-			kajyoulist.append(n)
+    yakusu_list = shinyaku(num)
 
-#過剰数の和で表現できるか判定する関数
+    if reduce(lambda x,y:x+y,yakusu_list) > num:
+        return True
+    else:
+        return False
+
+
+def set_kajyou_list(max):
+    """ max値以下の過剰数のリストを求める関数
+        返値：過剰数のリスト"""
+
+    for n in range(12,max+1):
+        if kajyou(n):
+            kajyou_list.append(n)
+
+
 def kajyouwa(num):
-	for a in kajyoulist:
-		if a >= num:
-			return False
-		else:
-			if num - a in kajyoulist:
-				return True
-	return False
+    """ 過剰数の和で表現できるか判定する関数
+        引数： 過剰数の和で表現できるのか判定対象とする正の整数値
+        返値： 過剰数の和ならTrue、そうでないならFalse"""
+
+    for a in kajyou_list:
+        if a >= num:
+            return False
+        else:
+            if num - a in kajyou_list:
+                return True
+    return False
 
 
-start = time.time()
-kj(1000)
-elp = time.time() - start
-print(kajyoulist)
-print("{0} sec".format(elp))
 
-ans =[]
-for n in range(24,28123):
-	if kajyouwa(n):
-		ans.append(n)
+if __name__ == "__main__":
+    start = time.time()
 
-print(ans)
+    kajyou_list = []
+    set_kajyou_list(28123)
+    sum = 0
+
+    for a in range(28123 + 1):
+        if kajyouwa(a):
+            print("○ {0}".format(a))
+        else:
+            print("× {0}".format(a))
+            sum += a
+
+
+
+    print(sum)
+    elp = time.time() - start
+    print(kajyou_list)
+    print("{0} sec".format(elp))
 
