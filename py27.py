@@ -5,6 +5,7 @@
 import time
 import math
 import functools
+from copy import copy
 
 '''
     |a| < 1000, |b| ≤ 1000 として以下の二次式を考える
@@ -14,9 +15,9 @@ import functools
 
     bは正の整数値でかつ素数であること！ →　1000以下の素数
 
-    n=1の時を考えると、a+b は素数である
-    a+b > 0
-    a > -b　→　1000 > a > -b
+    n=1の時を考えると、1+a+b は素数である
+    a+b+1 > 0
+    a > -b - 1　→　1000 > a > -b - 1
 
 '''
 
@@ -64,11 +65,22 @@ def count_sosu(a,b,slist):
 
     return count
 
-start = time.time()
-sosu_list = get_sosu(10000000)
-print(count_sosu(7,5,sosu_list))
 
-elp_time = time.time() - start
-print("{0:6.3f} sec".format(elp_time))
+if __name__ == "__main__":
+    start = time.time()
+
+    sosu_list = get_sosu(1000000)
+    ab_list = get_sosu(1000)
+
+    for b in ab_list:
+        for a in range(-b,1000):
+            if p in ab_list:
+                a = p - b -1
+                if a > 
+                print(a,b,count_sosu(a,b,sosu_list))
+
+
+    elp_time = time.time() - start
+    print("{0:6.3f} sec".format(elp_time))
 
 
