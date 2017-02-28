@@ -76,7 +76,7 @@ if __name__ == "__main__":
         for a in range(-b,1000):
             if p in ab_list:
                 a = p - b -1
-                if a > 
+                if a >
                 print(a,b,count_sosu(a,b,sosu_list))
 
 
