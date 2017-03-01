@@ -41,6 +41,7 @@ class Dice:
         return self._val
 
 
+
 class Dice2:
     ''' サイコロを２個持っていて
         振ると、２つの目を返す'''
@@ -63,11 +64,14 @@ class Dice2:
 
     @property
     def deme(self):
+        '''二つのサイコロの現在の出目を返す'''
         return self._d1.val, self._d2.val
 
     @property
     def demekei(self):
+        '''二つのサイコロの出目の合計値を求める'''
         return self._d1.val + self._d2.val
+
 
 if __name__ == "__main__":
     da = Dice2()
@@ -75,6 +79,7 @@ if __name__ == "__main__":
     print(da.roll_dice())
     print(da.deme)
     print(da.demekei)
+    print(da.menwa)
 
     # dic_val ={}
     # for _ in range(10000):
