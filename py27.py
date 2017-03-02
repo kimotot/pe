@@ -77,6 +77,11 @@ if __name__ == "__main__":
     maxcount = 0
 
     for b in ab_list:
+        for a in range(-b,1000):
+            if p in ab_list:
+                a = p - b -1
+                if a >
+                print(a,b,count_sosu(a,b,sosu_list))
 
         for p in ab_list:
 
@@ -88,7 +93,6 @@ if __name__ == "__main__":
                     maxb = b
                     maxcount = c
 
-    print("a = {0} b = {1} c = {3} m = {2}".format(maxa, maxb, maxa * maxb, maxcount))
 
     elp_time = time.time() - start
     print("{0:6.3f} sec".format(elp_time))

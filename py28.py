@@ -1,19 +1,46 @@
-#coding:UTF-8
+# プロジェクトオイラー Problem28
+# coding:UTF-8
 
-z = [[0]*1001 for i in range(1001)]
+MAX_LOOP = 500
 
-def getz(x,y):
-	return z[x+500][y+500]
+def get_rightup(max = MAX_LOOP):
+    ''' 中心からみて右斜め上方向に出現する数字列を求める関数
+        最大max個まで求める
+        先頭（0番目）は1である'''
 
-def setz(x,y,v):
-	z[x+500][y+500] = v
+    list_rightup = [1]
+    n = 1
 
-for x in range(-500,501):
-	for y in range(-500,501):
-		setz(x,y,x+y)
+    while n <= max:
+        list_rightup.append(list_rightup[n-1] + n*8)
+        n += 1
 
-for count in range(1,501):
-	sx = count				#その周回で最初に数字を埋めるマスのＸ
-	sy = y + count - 1		#その周回で最初に数字を埋めるマスのＹ
-	sn = getz(sx-1,y)		#その周回で最初に埋めるマスの数字
-	
+    return list_rightup
+
+
+def get_other(list_rightup,max = MAX_LOOP):
+    '''中心から見て左上・左下・右下方向に出現する数字列を求める関数
+        右上方向に出現する数字列を引数とし、それをもとに他列を求める
+        あとで総計を求める作業を簡単にするため先頭（０番目）は０とする'''
+
+    list_leftup = [0]
+    list_leftdown = [0]
+    list_rightdown = [0]
+
+    n = 1
+
+    while n <= max:
+        list_leftup.append(list_rightup[n] - (2*n) * 1)
+        list_leftdown.append(list_rightup[n] - (2*n) * 2)
+        list_rightdown.append(list_rightup[n] - (2*n) * 3)
+        n += 1
+    return list_leftup,list_leftdown,list_rightdown
+
+if __name__ == "__main__":
+    li_rightup = get_rightup()
+    li_leftup,li_leftdown,li_rightdown = get_other(li_rightup)
+
+    s = 0
+    for nlist in [li_rightup,li_leftup,li_leftdown,li_rightdown]:
+        s += sum(nlist)
+    print(s)

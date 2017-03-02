@@ -1,5 +1,6 @@
 # coding:UTF-8
 
+# 整数値のリスト
 li = [1,2,3,4,5,6,7,8,9]
 
 def pickone(selected):
@@ -13,6 +14,9 @@ def pickone(selected):
 
             selected.pop()
             li.insert(ix,x)
+
+def pan23(selected):
+    selected
 
 pickone([])
 
