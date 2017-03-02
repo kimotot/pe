@@ -52,3 +52,6 @@ if __name__ == '__main__':
 			print(n)
 
 	print("総計={0}".format(s))
+	
+	print("競合 リモート上で変更")
+	
