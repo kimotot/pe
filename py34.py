@@ -1,54 +1,44 @@
 # coding:UTF-8
 
+import time
 
 def kai(n):
-	# 正の整数の階乗を求める関数
-	# 階乗の計算結果
-	if n == 1:
-		return 1
-	else:
-		return n * kai(n - 1)
-
-
-def set_klist():
-	# 0〜9の階乗値をグローバル変数klistに保存する関数
-	for n in range(10):
-		if n == 0 or n == 1:
-			klist.append(n)
-		else:
-			klist.append(klist[n - 1] * n)
+    ''' 正の整数の階乗を求める関数
+         階乗の計算結果'''
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * kai(n - 1)
 
 
 def is_kaijyowa(n):
-	# 正の整数値の各桁の階乗和と、整数値が等しいか判定する関数
-	sum = 0
+    # 正の整数値の各桁の階乗和と、整数値が等しいか判定する関数
+    temp_sum = 0
+    temp_n = n
 
-	n10 = n // 10
-	n1 = n - n10 * 10
+    while temp_n > 0:
+        temp_sum = temp_sum + klist[temp_n % 10]
+        temp_n = temp_n // 10
 
-	while (n1 > 0) or (n10 > 0):
-		sum = sum + klist[n1]
-		t = n10
-		n10 = n10 // 10
-		n1 = t - n10 * 10
-
-	if sum == n:
-		return True
-	else:
-		return False
+    if temp_sum == n:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
-	klist = []
-	set_klist()
+    klist = [kai(x) for x in range(10)]
+    sum = 0
 
-	s = 0
+    start = time.time()
 
-	print(klist)
+    for n in range(10, klist[9]*7):
+        if is_kaijyowa(n):
+            sum += n
 
-	for n in range(10000000):
-		if is_kaijyowa(n):
-			s = s + n
-			print(n)
+    print("総和={0}".format(sum))
 
-	print("総計={0}".format(s))
+    elapsed_time = time.time() - start
+    print("時間={0:.3}".format(elapsed_time))
+
+    print("競合 ローカルで変更")
