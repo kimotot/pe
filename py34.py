@@ -41,4 +41,6 @@ if __name__ == '__main__':
     elapsed_time = time.time() - start
     print("時間={0:.3}".format(elapsed_time))
 
+    print("競合 リモートで変更")
+
     print("競合 さらにローカルで変更")
