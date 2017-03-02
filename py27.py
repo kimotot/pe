@@ -72,13 +72,23 @@ if __name__ == "__main__":
     sosu_list = get_sosu(1000000)
     ab_list = get_sosu(1000)
 
-    for b in ab_list:
-        for a in range(-b,1000):
-            if p in ab_list:
-                a = p - b -1
-                if a > 
-                print(a,b,count_sosu(a,b,sosu_list))
+    maxa = 0
+    maxb = 0
+    maxcount = 0
 
+    for b in ab_list:
+
+        for p in ab_list:
+
+            a = p - b - 1
+            if (a > -b) and (a < 1000):
+                c = count_sosu(a,b,sosu_list)
+                if c > maxcount:
+                    maxa = a
+                    maxb = b
+                    maxcount = c
+
+    print("a = {0} b = {1} c = {3} m = {2}".format(maxa, maxb, maxa * maxb, maxcount))
 
     elp_time = time.time() - start
     print("{0:6.3f} sec".format(elp_time))
