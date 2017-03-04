@@ -14,10 +14,10 @@ def permutations(origin):
     else:
         ans = []
         for index,header in enumerate(origin):
-            new_orirign = copy.deepcopy(origin)
-            del new_orirign[index]
+            new_orign = copy.deepcopy(origin)
+            del new_orign[index]
 
-            for cuder in permutations(new_orirign):
+            for cuder in permutations(new_orign):
                 cuder.insert(0,header)
                 ans.append(copy.deepcopy(cuder))
 
