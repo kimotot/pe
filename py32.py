@@ -43,29 +43,48 @@ def permutationsIt(origin):
                 yield cuder
 
 
+def pandegi14(alist):
+    '''１から９の数字列が、1X４のパンデジタルであるか判定する関数'''
+    x = alist[0]
+    y = alist[1]*1000 + alist[2]*100 + alist[3]*10 + alist[4]
+    z = alist[5]*1000 + alist[6]*100 + alist[7]*10 + alist[8]
 
-# 整数値のリスト
-li = [1,2,3,4,5,6,7,8,9]
-
-def pickone(selected):
-    if len(li) == 0:
-        yield selected
+    if x * y == z:
+        return True,z
     else:
-        for ix,x in enumerate(li):
-            del li[ix]
-            selected.append(x)
-            pickone(selected)
+        return False,0
 
-            selected.pop()
-            li.insert(ix,x)
+
+def pandegi23(alist):
+    '''１から９の数字列が、２X３のパンデジタルであるか判定する関数'''
+    x = alist[0]*10 + alist[1]
+    y = alist[2]*100 + alist[3]*10 + alist[4]
+    z = alist[5]*1000 + alist[6]*100 + alist[7]*10 + alist[8]
+
+    if x * y == z:
+        return True,z
+    else:
+        return False,0
 
 
 if __name__ == "__main__":
 
     start = time.time()
 
+    s = set()
+
     for n in permutationsIt([1,2,3,4,5,6,7,8,9]):
-        pass
+        b,z = pandegi14(n)
+        if b:
+            print(14,n)
+            s.add(z)
+
+        b,z = pandegi23(n)
+        if b:
+            print(23,n)
+            s.add(z)
+
+    print("総和={0}".format(sum(s)))
 
     elapsed_time = time.time() - start
     print("処理時間={0:.4f}".format(elapsed_time))

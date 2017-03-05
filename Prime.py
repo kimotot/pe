@@ -109,7 +109,20 @@ class Prime:
                     raise IndexError
 
 
+def is_prime(num):
+    '''引数が素数であるか判定する関数'''
+
+    if num % 2 == 0:
+        return False
+    else:
+        sq = int(math.sqrt(num))
+        for i in range(3, sq+1, 2):
+            if num % i == 0:
+                return False
+
+    return True
+
 # 100以下の素数を列挙する
 if __name__ == "__main__":
-    p = Prime(-1)
+    p = Prime(1)
     print(p.get_prime_list())
