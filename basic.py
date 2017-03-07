@@ -1,14 +1,53 @@
 import Prime
 import time
 import copy
+import random
+import math
 
-def gcm(a,b):
+def gcd(a,b):
     ''' ユークリッド互除法を用いて、最大公約数を求める関数'''
     r = a % b
     if r == 0:
         return b
     else:
-        return gcm(b,r)
+        return gcd(b, r)
+
+
+def prime_factorization(n):
+    '''単純に２からルートｎまでで割り算する手法で、
+        素因数分解を行う
+        返値は素因数分解結果のリスト
+        引数が素数の場合は、その素数のみを含む、要素数が１のリストを返す'''
+    if n <= 1:
+        raise IndexError
+    elif 2 <= n <= 3:
+        return [n]
+    else:
+        for i in range(2, int(math.sqrt(n)) + 2):
+            if n % i == 0:
+                ans = prime_factorization(n // i)
+                ans.insert(0, i)
+                return ans
+        return [n]
+
+
+def pollard_rho(n):
+    '''ロー法を用いて、素因数を求めるプログラム'''
+    def f(x, a, n):
+        return (x * x * x + a) % n
+
+    x = random.randint(0, n-1)
+    y = x
+    a = random.randint(1, n-3)
+
+    d = 0
+    while d <= 1:
+        x = f(x,a,n)
+        y = f(y,a,n)
+        y = f(y,a,n)
+        d = gcd(x-y,n)
+
+    return d
 
 
 def yaku(n):
@@ -110,8 +149,9 @@ def time_log(func):
 if __name__ == "__main__":
 
     @time_log
-    def main():
-        print(is_pandigital(54312))
+    def test():
+        for n in range(10,1000000):
+            print(n, prime_factorization(n))
 
 
-    main()
+    test()

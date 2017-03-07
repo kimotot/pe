@@ -1,6 +1,7 @@
 # 素数を列挙するイテレータクラスのモジュールファイル
 
 import math
+import basic
 
 class PrimeIter:
     '''素数を列挙するイテレータクラス'''
@@ -124,5 +125,20 @@ def is_prime(num):
 
 # 100以下の素数を列挙する
 if __name__ == "__main__":
-    p = Prime(1)
-    print(p.get_prime_list())
+
+    MA = 1000000
+
+    @basic.time_log
+    def test():
+        prime = PrimeIter()
+        for p in prime:
+
+            if p > MA:break
+
+
+    @basic.time_log
+    def test2():
+        prime = Prime(MA)
+
+    test()
+    test2()
