@@ -30,24 +30,27 @@ def prime_factorization(n):
                 return ans
         return [n]
 
-
 def pollard_rho(n):
     '''ロー法を用いて、素因数を求めるプログラム'''
-    def f(x, a, n):
-        return (x * x * x + a) % n
+    def f(x, n):
+        return (x*x + 1) % n
 
     x = random.randint(0, n-1)
-    y = x
-    a = random.randint(1, n-3)
+    y = f(x, n)
+    d = 1
 
-    d = 0
-    while d <= 1:
-        x = f(x,a,n)
-        y = f(y,a,n)
-        y = f(y,a,n)
-        d = gcd(x-y,n)
+    while d == 1:
+        x = f(x, n)
+        y = f(y, n)
+        y = f(y, n)
+        d = gcd(abs(x-y), n)
 
-    return d
+    if 1 < d < n:
+        return True, d
+    elif d == n:
+        return False, d
+    else:
+        return False, 0
 
 
 def yaku(n):
@@ -150,8 +153,6 @@ if __name__ == "__main__":
 
     @time_log
     def test():
-        for n in range(10,1000000):
-            print(n, prime_factorization(n))
-
+        print(pollard_rho(123456789123456789123456787))
 
     test()
