@@ -17,30 +17,51 @@ def is_prime_permulation(primelist, head, n):
     '''引数の素数列(primelist)のhead番目(先頭は0番とする)から
         連続するｎ個の素数の和が、素数であるか判定する関数'''
 
-    if sum(primelist[head:head+n]) in primelist:
-        return True
+    s = sum(primelist[head:head + n])
+
+    if s in primelist:
+        return True, s
     else:
-        return False
+        return False, s
 
 
-@basic.time_log
-def main():
-    prime = Prime.Prime(MAX)
-    primelist = prime.get_prime_list()
-
-    maxlen = 20
-    maxhead = 0
-
-    for head in range(len(primelist) - maxlen):
-        tlen = maxlen + 1
-        while is_prime_permulation(primelist, head, tlen):
-            maxhead = head
-            maxlen = tlen
-            tlen += 1
-
-    print(maxhead, sum(primelist[maxhead:maxhead+maxlen]), maxlen)
 
 
 if __name__ == "__main__":
+
+    @basic.time_log
+    def main():
+        prime = Prime.Prime(MAX)
+        primelist = prime.get_prime_list()
+
+        maxlen = 21
+        maxhead = 0
+        ans = 0
+
+        for head in range(len(primelist)):
+            n = maxlen + 1
+            f, s = is_prime_permulation(primelist, head, n)
+
+            if s > MAX:
+                print("head=",head)
+                break
+
+            while s < MAX:
+                if f:
+                    maxhead = head
+                    maxlen = n
+                    ans = s
+                    print(maxhead, n, ans)
+
+                n += 1
+                f, s = is_prime_permulation(primelist, head, n)
+
+    @basic.time_log
+    def test():
+        prime = Prime.Prime(MAX)
+        primelist = prime.get_prime_list()
+
+        print(primelist[4703:4724])
+
 
     main()
