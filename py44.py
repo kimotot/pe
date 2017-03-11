@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
         pentagon = Pentagonal_Number()
 
-        for k in range(2,pentagon.maxn+1):
+        for k in range(7, pentagon.maxn + 1):
             print(k)
             j = k - 1
             while j > 0:
@@ -102,8 +102,8 @@ if __name__ == "__main__":
                         and temp_d < max_d\
                         and pentagon.is_pentagonal(kvalue + jvalue):
                     max_d = temp_d
-                    ans = (j,k)
-                    print(ans,jvalue , kvalue, max_d)
+                    ans = (j, k)
+                    print(ans, jvalue, kvalue, max_d)
                 j -= 1
 
     main()
