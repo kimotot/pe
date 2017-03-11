@@ -30,24 +30,27 @@ def prime_factorization(n):
                 return ans
         return [n]
 
-
 def pollard_rho(n):
     '''ロー法を用いて、素因数を求めるプログラム'''
-    def f(x, a, n):
-        return (x * x * x + a) % n
+    def f(x, n):
+        return (x*x + 1) % n
 
     x = random.randint(0, n-1)
-    y = x
-    a = random.randint(1, n-3)
+    y = f(x, n)
+    d = 1
 
-    d = 0
-    while d <= 1:
-        x = f(x,a,n)
-        y = f(y,a,n)
-        y = f(y,a,n)
-        d = gcd(x-y,n)
+    while d == 1:
+        x = f(x, n)
+        y = f(y, n)
+        y = f(y, n)
+        d = gcd(abs(x-y), n)
 
-    return d
+    if 1 < d < n:
+        return True, d
+    elif d == n:
+        return False, d
+    else:
+        return False, 0
 
 
 def yaku(n):
@@ -139,19 +142,34 @@ def time_log(func):
         print("---Start---")
         result = func(*args, **kwargs)
         elapsed_time = time.time() - start
-        print("---End---")
+        print("----End----")
         print("処理時間={0:.6f}".format(elapsed_time))
 
     return wrapper
 
+def listtoint(li):
+    ''' 桁毎の整数値（一桁）の並んだリストを受け取り、
+        それを整数に変換する関数'''
+    val = 0
+    for n in li:
+        val = val*10 + n
+    return val
 
+def inttolist(n):
+    ''' 引数の整数値nを桁毎に分解し、
+        整数値のリストとして返す関数'''
+    li = []
+    t = n
+    while t > 0:
+        a = t % 10
+        t //= 10
+        li.insert(0, a)
+    return li
 
 if __name__ == "__main__":
 
     @time_log
     def test():
-        for n in range(10,1000000):
-            print(n, prime_factorization(n))
-
+        print(inttolist(1023))
 
     test()
