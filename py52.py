@@ -16,27 +16,34 @@ def isequalnum(a,b):
         return False
 
 
+def is6numberequal(n):
+    """引数nの２〜６倍の数字が、同じ構成要素であるか判定する関数"""
+
+    for bai in range(2, 7):
+        if not isequalnum(n, n * bai):
+            return False
+
+    return True
+
+
 if __name__ == "__main__":
 
     def test():
-        print(isequalnum(123,322))
+        print(is6numberequal(1428570))
 
     @basic.time_log
     def main():
-        n = 125874
+        keta = 5
 
-        while True:
-            print(n)
-            count = 0
-            for x in range(2, 7):
-                if isequalnum(n, n*x):
-                    count += 1
-                else:
-                    break
+        while keta < 6:
+            for n in range(10**keta, 10**(keta+1) // 6):
+                print(n)
+                if is6numberequal(n):
+                    print("ans= ", n)
+                    return
 
-                if count == 6:
-                    return True,n
+            keta += 1
 
-            n += 1
+        print("No Answer!")
 
-    print(main())
+    main()
