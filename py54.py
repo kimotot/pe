@@ -55,17 +55,21 @@ def analyzehand(tc):
     """役の判定をする関数"""
     dicn, dics = handcount(tc)
 
+    # フラッシュであるかを判定し変数に保存しておく
+    is_flash = False
+    for ts in dics:
+        if ts[1] == 5:
+            is_flash = True
+            break
+
+
     # ロイヤルフラッシュの判定
-    if dicn['T'] == dicn['J'] == dicn['Q'] == dicn['K'] == dicn['A'] == 1:
-        flag = False
-        for ts in dics:
-            if ts[1] == 5:
-                flag = True
-                break
+    if dicn['T'] == dicn['J'] == dicn['Q'] == dicn['K'] == dicn['A'] == 1 and is_flash:
+        return RF, 'A'
 
-        if flag:
-            return RF, 'A'
-
+    # ストレートの判定
+    is_straight = False
+    if
 
 if __name__ == "__main__":
     def test():
