@@ -41,10 +41,23 @@ def handcount(tc):
         引数の５枚のカードの数字と、種類をカウントする関数
         {'2':3,...} のように辞書の形式で返す"""
 
-    dicn = {'2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, 'T': 0, 'J': 0, 'Q': 0, 'K': 0, 'A': 0}
+    dicn = [0] * 15
     dics = {'D': 0, 'C': 0, 'H': 0, 'S': 0}
 
-    for (tn, ts) in tc:
+    for (tn_str, ts) in tc:
+        if tn_str.isnumeric():
+            tn = int(tn_str)
+        elif tn_str == 'T':
+            tn = 10
+        elif tn_str == 'J':
+            tn = 11
+        elif tn_str == 'Q':
+            tn = 12
+        elif tn_str == 'K':
+            tn = 13
+        elif tn_str == 'A':
+            tn = 14
+
         dicn[tn] += 1
         dics[ts] += 1
 
@@ -53,27 +66,42 @@ def handcount(tc):
 
 def analyzehand(tc):
     """役の判定をする関数"""
-    dicn, dics = handcount(tc)
+    listn, dics = handcount(tc)
+    print(listn, dics)
+    bign = []
 
     # フラッシュであるかを判定し変数に保存しておく
-    is_flash = False
-    for ts in dics:
-        if ts[1] == 5:
-            is_flash = True
+    isflash = False
+    for n in dics.values():
+        if n == 5:
+            isflash = True
             break
 
-
     # ロイヤルフラッシュの判定
-    if dicn['T'] == dicn['J'] == dicn['Q'] == dicn['K'] == dicn['A'] == 1 and is_flash:
-        return RF, 'A'
+    if listn[10] == listn[11] == listn[12] == listn[13] == listn[14] == 1 and isflash:
+        return RF, [14]
 
     # ストレートの判定
-    is_straight = False
-    if
+    isstraight = False
+    for n in range(2, 11):
+        if listn[n] == listn[n+1] == listn[n+2] == listn[n+3] == listn[n+4] == 1:
+            isstraight = True
+            bign = [n+4]
+            break
+
+    # ストレートフラッシュの判定
+    if isflash and isstraight:
+        return SF, bign
+
+    # ストレートの判定
+    if isstraight:
+        return ST, bign
+
+    # フラッシュの反映
 
 if __name__ == "__main__":
     def test():
-        print(handcount([('3', 'C'), ('3', 'D'), ('3', 'S'), ('9', 'S'), ('9', 'D')]))
+        print(analyzehand([('T', 'C'), ('J', 'D'), ('Q', 'S'), ('K', 'S'), ('A', 'D')]))
 
 
     test()
