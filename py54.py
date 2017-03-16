@@ -41,7 +41,7 @@ def handcount(tc):
         引数の５枚のカードの数字と、種類をカウントする関数
         {'2':3,...} のように辞書の形式で返す"""
 
-    dicn = [0] * 15
+    listn = [0] * 15
     dics = {'D': 0, 'C': 0, 'H': 0, 'S': 0}
 
     for (tn_str, ts) in tc:
@@ -58,16 +58,19 @@ def handcount(tc):
         elif tn_str == 'A':
             tn = 14
 
-        dicn[tn] += 1
+        listn[tn] += 1
         dics[ts] += 1
 
-    return dicn, dics
+    return listn, dics
 
 
 def analyzehand(tc):
     """役の判定をする関数"""
+    # 最初に手札の数字と種類について分析をしておく
     listn, dics = handcount(tc)
     print(listn, dics)
+
+    # 手札の中で強いカードの値を保尊しておくリスト　初期化
     bign = []
 
     # フラッシュであるかを判定し変数に保存しておく
@@ -97,11 +100,117 @@ def analyzehand(tc):
     if isstraight:
         return ST, bign
 
-    # フラッシュの反映
+    # フォーカードの判定
+    c1 = -1
+    c4 = -1
+    for idx, n in enumerate(listn):
+        if n == 1:
+            c1 = idx
+        elif n == 4:
+            c4 = idx
+
+    if c4 != -1:
+        bign.extend([c4, c1])
+        return FC, bign
+
+    # フルハウス/スリーカードの判定
+    c2 = -1
+    c3 = -1
+    for idx, n in enumerate(listn):
+        if n == 2:
+            c2 = idx
+        elif n == 3:
+            c3 = idx
+
+    if c3 != -1 and c2 != -1:
+        return FH, [c3, c2]
+    elif not isflash and c3 != -1 and c2 == -1:
+        for idx, n in enumerate(listn):
+            if n == 1:
+                bign.insert(0, idx)
+        bign.insert(0, c3)
+        return TC, bign
+
+    # フラッシュの判定
+    if isflash:
+        for idx, n in enumerate(listn):
+            if n == 1:
+                bign.insert(0, idx)
+        return FL, bign
+
+    # ツーペア／ワンペア／役なしの判定
+    tplist = []
+    for idx, n in enumerate(listn):
+        if n == 1:
+            bign.insert(0, idx)
+        elif n == 2:
+            tplist.insert(0, idx)
+    if len(tplist) == 2:
+        tplist.extend(bign)
+        return TP, tplist
+    elif len(tplist) == 1:
+        tplist.extend(bign)
+        return OP, tplist
+    else:
+        return NH, bign
+
+
+def judgehand(tc1,tc2):
+    """ポーカーの勝ち負けを判定する関数"""
+    ans_tc1 = analyzehand(tc1)
+    ans_tc2 = analyzehand(tc2)
+
+    if ans_tc1[0] > ans_tc2[0]:
+        return 1
+    elif ans_tc1[0] < ans_tc2[0]:
+        return 2
+    else:
+        big1 = ans_tc1[1]
+        big2 = ans_tc2[1]
+
+        for n in range(min(len(big1), len(big2))):
+            if big1[n] > big2[n]:
+                return 1
+            elif big1[n] < big2[n]:
+                return 2
+
+    return 0
+
+def readhand():
+    """ポーカーの手札が記入されたファイルを読み込み"""
+    f = open('files/p054_poker.txt','r')
+    result = []
+    for line in f:
+        onelist = line.strip().split(" ")
+        ans = []
+        for c in onelist:
+            ans.append((c[0], c[1]))
+
+        tc1 = ans[:5]
+        tc2 = ans[5:]
+        result.append([tc1, tc2])
+    f.close()
+
+    return result
 
 if __name__ == "__main__":
     def test():
-        print(analyzehand([('T', 'C'), ('J', 'D'), ('Q', 'S'), ('K', 'S'), ('A', 'D')]))
+
+        # print(judgehand([('4', 'D'), ('2', 'C'), ('6', 'C'), ('A', 'H'), ('9', 'S')] ,
+        #                   [('A', 'D'), ('2', 'C'), ('6', 'C'), ('A', 'H'), ('9', 'S')]))
+
+        print(readhand())
 
 
-    test()
+    def main():
+        r = readhand()
+
+        count = 0
+        for [tc1, tc2] in r:
+            win = judgehand(tc1, tc2)
+            if win == 1:
+                count += 1
+
+        print(count)
+
+    main()
