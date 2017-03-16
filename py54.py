@@ -34,6 +34,7 @@ FC = 7
 SF = 8
 RF = 9
 
+
 def handcount(tc):
     """ 引数tcで５枚のトランプカードが与えられる
         個々のトランプは('2','H")というタプルが要素になったリスト形式である
@@ -201,7 +202,7 @@ if __name__ == "__main__":
 
         print(readhand())
 
-
+    @basic.time_log
     def main():
         r = readhand()
 
