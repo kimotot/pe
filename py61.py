@@ -80,7 +80,7 @@ def find_nlevel(target, nlevel, aset):
 if __name__ == "__main__":
 
     @basic.time_log
-    def test():
+    def main():
         setnlist()
         for idx, nlist in ndic.items():
             print(idx, nlist)
@@ -104,4 +104,4 @@ if __name__ == "__main__":
                         print(s)
 
 
-    test()
+    main()
