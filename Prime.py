@@ -16,6 +16,8 @@ class PrimeIter:
         else:
             self._max = max
 
+        self._prime_list = []    # クラス内部で求めた素数を保持するリスト
+
     def __iter__(self):
         '''イテレータとして初期化する'''
         self._n = 1          # 1の次の数字（２）から素数の探索を始める
