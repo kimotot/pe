@@ -166,10 +166,40 @@ def inttolist(n):
         li.insert(0, a)
     return li
 
+
+def kumiawase(n, origin_list):
+    """与えられた整数リストから、n個の数字を取り出す組み合わせを求める関数"""
+    length = len(origin_list)
+
+    if n > length:
+        return []
+
+    ans = []
+
+    if n == 1:
+        for i in origin_list:
+            ans.append([i])
+        return ans
+
+    for i in range(length - n + 1):
+        new_list = origin_list[i+1:]
+        ret = kumiawase(n-1, new_list)
+
+        for x in ret:
+            x.insert(0, origin_list[i])
+            ans.append(x)
+
+    return ans
+
+
+
+
 if __name__ == "__main__":
 
     @time_log
     def test():
-        print(inttolist(1023))
+        for x in kumiawase(5, [1,2,3,4,5,6,7,8,9]):
+            if sum(x) % 5 == 0:
+                print(sum(x), x)
 
     test()
