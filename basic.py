@@ -198,8 +198,7 @@ if __name__ == "__main__":
 
     @time_log
     def test():
-        for x in kumiawase(5, [1,2,3,4,5,6,7,8,9]):
-            if sum(x) % 5 == 0:
-                print(sum(x), x)
+        print(permutations([1,2,3]))
+
 
     test()
