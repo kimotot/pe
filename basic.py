@@ -198,7 +198,7 @@ if __name__ == "__main__":
 
     @time_log
     def test():
-        print(permutations([1,2,3]))
+        print(gcd(13,11))
 
 
     test()
