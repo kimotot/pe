@@ -3,6 +3,7 @@ import time
 import copy
 import random
 import math
+from fractions import Fraction
 
 def gcd(a,b):
     ''' ユークリッド互除法を用いて、最大公約数を求める関数'''
@@ -29,6 +30,25 @@ def prime_factorization(n):
                 ans.insert(0, i)
                 return ans
         return [n]
+
+
+def prime_factorization_set(n):
+    '''単純に２からルートｎまでで割り算する手法で、
+        素因数分解を行う
+        返値は素因数分解結果のリスト
+        引数が素数の場合は、その素数のみを含む、要素数が１のリストを返す'''
+    if n <= 1:
+        raise IndexError
+    elif 2 <= n <= 3:
+        return {n}
+    else:
+        for i in range(2, int(math.sqrt(n)) + 2):
+            if n % i == 0:
+                ans = prime_factorization_set(n // i)
+                ans.add(i)
+                return ans
+        return {n}
+
 
 def pollard_rho(n):
     '''ロー法を用いて、素因数を求めるプログラム'''
@@ -198,7 +218,15 @@ if __name__ == "__main__":
 
     @time_log
     def test():
-        print(permutations([1,2,3]))
+        for n in range(2, 100000):
+            pset = prime_factorization_set(n)
+
+            fai = n
+            for p in pset:
+                fai = fai * (1-Fraction(1,p))
+
+            print(n, fai)
+
 
 
     test()
